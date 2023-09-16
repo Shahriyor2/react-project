@@ -2,6 +2,7 @@ import styles from "./app.module.scss";
 function App() {
   return (
     <div className="wrapper clear">
+      {/* начало корзины */}
       <div className="overlay">
         <div className="drawer">
           <h2 className="mb-30">Корзина</h2>
@@ -37,7 +38,21 @@ function App() {
               <img className="removeBtn" src="/img/remove.svg" alt="Remove" />
             </div>
           </div>
-          
+
+          <ul className="cartTotalBlock">
+            <li>
+              <span>Итого:</span>
+              <div></div>
+              <b>21 498 руб. </b>
+            </li>
+
+            <li>
+              <span>Налог 5%: </span>
+              <div></div>
+              <b>1074 руб. </b>
+            </li>
+          </ul>
+
         </div>
       </div>
 
