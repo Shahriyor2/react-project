@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./app.module.scss";
 import Card from "./Components/Card";
 import Header from "./Components/Header";
@@ -26,14 +27,20 @@ const arr = [
   },
 ];
 
+
 function App() {
+
+  const [cartOpened, setCartOpened] = React.useState( false);
+  console.log(cartOpened);
+ 
+
   return (
     <div className="wrapper clear">
       {/* начало корзины */}
-      <Drawer />
+     {cartOpened ? <Drawer onClose = { () => setCartOpened(false)}/> : ""}
 
       {/* заголовок header */}
-      <Header />
+      <Header onClickCart = {() => setCartOpened(true)}  />
 
       {/* сонтент кроссовок*/}
       <div className="content p-40">
@@ -51,6 +58,8 @@ function App() {
               tittle={obj.tittle}
               price={obj.price}
               imageUrl={obj.imageUrl}
+              oncLick={ () => console.log(obj)}
+
             />
           ))}
         </div>
