@@ -1,10 +1,9 @@
 import React from "react";
 import Card from "./Components/Card/index";
 import axios from "axios";
-import styles from "./app.module.scss";
 import Drawer from "./Components/Drawer";
 import Header from "./Components/Header";
-import json from "react-router-dom";
+import Emptycart from "./Components/Emptycart";
 
 // const arr = [
 //   {
@@ -44,6 +43,14 @@ function App() {
   //   fetchItems()
   // },[])
 
+  const getCart = async () => {
+    axios
+      .get(`https://6509820cf6553137159b94c2.mockapi.io/cart`)
+      .then((res) => {
+        setCartItems(res.data);
+      });
+  }
+
   React.useEffect(() => {
     axios
       .get(`https://6509820cf6553137159b94c2.mockapi.io/items`)
@@ -51,23 +58,25 @@ function App() {
         setItems(res.data);
        
       });
-      axios
-      .get(`https://6509820cf6553137159b94c2.mockapi.io/cart`)
-      .then((res) => {
-        setCartItems(res.data);
-        
-      });
+      getCart()
   }, []);
   
 
   const onAddToCart = (obj) => {
-    axios.get(`https://6509820cf6553137159b94c2.mockapi.io/cart`, obj);
-    setCartItems((prev) => [...prev, obj]);
+    axios.post(`https://6509820cf6553137159b94c2.mockapi.io/cart`, obj).then(res => getCart());
   };
 
+  const isAdded = (id) => {
+    return cartItems.some(item => item.id === id)
+  }
+
+
   const onDeleteFromCart = (id) => {
-    axios.delete(`https://6509820cf6553137159b94c2.mockapi.io/cart/${id}`)
+    const currentItem = cartItems.find(item => item.id === id)
+    const {new_id} = currentItem
+    axios.delete(`https://6509820cf6553137159b94c2.mockapi.io/cart/${new_id}`);
     setCartItems(cartItems.filter((e) => e.id !== id));
+    // setCartItems((prev) => prev.filter(item => item.id !== id));
   };
 
   // const onRemoveItem = (id) => {
@@ -128,6 +137,7 @@ function App() {
             )
             .map((item) => (
               <Card
+              isAdded={isAdded}
                 cartItems={cartItems}
                 key={item.id}
                 {...item}

@@ -1,23 +1,28 @@
 import styles from "./Card.module.scss";
 import React from "react";
 
-function Card({tittle, imageUrl, price, id, onFavorite, onAddToCart, onDeleteFromCart}) {
-  const [isAdded, setIsAdded] = React.useState(false);
+function Card({tittle, imageUrl, price, id, onFavorite, onAddToCart, onDeleteFromCart, isAdded}) {
+  // const [isAdded, setIsAdded] = React.useState(false);
+  const [isFavorite, setIsFavorite] = React.useState(false)
 
   const onClickPlus = () => {
     onAddToCart({tittle, imageUrl, price, id});
-    setIsAdded(true);
   };
 
   const onDelete = () => {
     onDeleteFromCart(id)
-    setIsAdded(false)
   }
+
+  const onClickFavorite = () => {
+    setIsFavorite(!isFavorite)
+  }
+  
+
   return (
     <div className={styles.card}>  
       {/* иконка лайка */}
       <div onClick={onFavorite} className="favorite">
-        <img className="cu-p" src="/img/heart-Unliked.svg" alt="Unliked" />
+        <img onClick={onClickFavorite} className="cu-p" src= {isFavorite ? "/img/heart-liked.svg" : "/img/heart-Unliked.svg" } alt="Unliked" />
       </div>
 
       {/* кроссовки */}
@@ -30,8 +35,8 @@ function Card({tittle, imageUrl, price, id, onFavorite, onAddToCart, onDeleteFro
         </div>
         <img
           className={styles.plus}
-          onClick={isAdded ? onDelete : onClickPlus}
-          src={isAdded ? "/img/btn-cheked.svg" : "/img/btn-plus.svg"}
+          onClick={isAdded(id) ? onDelete : onClickPlus}
+          src={isAdded(id) ? "/img/btn-cheked.svg" : "/img/btn-plus.svg"}
           alt="Plus"
         />
       </div>
