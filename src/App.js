@@ -20,8 +20,10 @@ import json from "react-router-dom";
 // ];
 
 function App() {
-  //
+  //Кроссовки в Drawer
   const [cartItems, setCartItems] = React.useState([]);
+
+  // открытие Drawer
   const [cartOpened, setCartOpened] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
 
@@ -47,13 +49,16 @@ function App() {
       .get(`https://6509820cf6553137159b94c2.mockapi.io/items`)
       .then((res) => {
         setItems(res.data);
+       
       });
       axios
       .get(`https://6509820cf6553137159b94c2.mockapi.io/cart`)
       .then((res) => {
         setCartItems(res.data);
+        
       });
   }, []);
+  
 
   const onAddToCart = (obj) => {
     axios.get(`https://6509820cf6553137159b94c2.mockapi.io/cart`, obj);
