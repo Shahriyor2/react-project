@@ -14,7 +14,8 @@ function Card({tittle, imageUrl, price, id, onFavorite, onAddToCart, onDeleteFro
   }
 
   const onClickFavorite = () => {
-    setIsFavorite(!isFavorite)
+    onFavorite({tittle, imageUrl, price});
+    setIsFavorite(!isFavorite);
   }
   
 

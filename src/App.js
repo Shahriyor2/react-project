@@ -28,6 +28,7 @@ function App() {
 
   //массив наших кроссовок
   const [items, setItems] = React.useState([]);
+  const [Favorites, setFavorites] = React.useState([]);
 
   // const fetchItems = async () => {
   //   fetch(`https://6509820cf6553137159b94c2.mockapi.io/items`)
@@ -49,34 +50,32 @@ function App() {
       .then((res) => {
         setCartItems(res.data);
       });
-  }
+  };
 
   React.useEffect(() => {
     axios
       .get(`https://6509820cf6553137159b94c2.mockapi.io/items`)
       .then((res) => {
         setItems(res.data);
-       
       });
-      getCart()
+    getCart();
   }, []);
-  
 
   const onAddToCart = (obj) => {
-    axios.post(`https://6509820cf6553137159b94c2.mockapi.io/cart`, obj).then(res => getCart());
+    axios
+      .post(`https://6509820cf6553137159b94c2.mockapi.io/cart`, obj)
+      .then((res) => getCart());
   };
 
   const isAdded = (id) => {
-    return cartItems.some(item => item.id === id)
-  }
-
+    return cartItems.some((item) => item.id === id);
+  };
 
   const onDeleteFromCart = (id) => {
-    const currentItem = cartItems.find(item => item.id === id)
-    const {new_id} = currentItem
+    const currentItem = cartItems.find((item) => item.id === id);
+    const { new_id } = currentItem;
     axios.delete(`https://6509820cf6553137159b94c2.mockapi.io/cart/${new_id}`);
     setCartItems(cartItems.filter((e) => e.id !== id));
-    // setCartItems((prev) => prev.filter(item => item.id !== id));
   };
 
   // const onRemoveItem = (id) => {
@@ -86,6 +85,10 @@ function App() {
 
   const onChangeSearchInput = (event) => {
     setSearchValue(event.target.value);
+  };
+
+  const onAddToFavorite = (obj) => {
+    setFavorites((prev) => [...prev, obj]);
   };
 
   return (
@@ -137,12 +140,12 @@ function App() {
             )
             .map((item) => (
               <Card
-              isAdded={isAdded}
+                isAdded={isAdded}
                 cartItems={cartItems}
                 key={item.id}
                 {...item}
                 onDeleteFromCart={onDeleteFromCart}
-                onFavorite={() => console.log("Добавили в закладки")}
+                onFavorite={(obj) => onAddToFavorite(obj)}
                 onAddToCart={onAddToCart}
               />
             ))}

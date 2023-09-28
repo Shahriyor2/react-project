@@ -66,8 +66,8 @@ function Drawer({ onClose, onDeleteFromCart, cartItems, onRemove }) {
             <p className="opacity-6">
               Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.
             </p>
-            <button className="greenButton">
-            <img src="img/arrow.svg" alt="Arrow"/>
+            <button onClick={onClose} className="greenButton">
+            <img src="img/Стрелка-назад.svg" alt="Arrow"/>
               Вернуться назад
             </button>
           </div>

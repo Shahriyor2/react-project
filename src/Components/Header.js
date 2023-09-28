@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 function Header({onClickCart}) {
   return (
     <header className="d-flex justify-between align-center p-40">
@@ -21,9 +23,14 @@ function Header({onClickCart}) {
           <span>1205 руб.</span>
         </li>
 
-        <li className="">
-          <img src="img/User.svg" alt="User" />
+        <li className="mr-15 cu-p">
+          <img src="img/Heart.svg" alt="User" />
         </li>
+
+        <li>
+          <img src="img/User.svg" alt="Пользователь" />
+        </li>
+
       </ul>
     </header>
   );
