@@ -14,7 +14,7 @@ function Header({ onClickCart }) {
           ></img>
           <div className="text-uppercase">
             <h1 className="">REACT SNEAKERS</h1>
-            <p className="opacity-5">Магазин лучших кроссовок</p>
+            <p className="opacity-5">Магазин самых лучших кроссовок</p>
           </div>
         </div>
       </Link>
