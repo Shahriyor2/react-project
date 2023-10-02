@@ -272,3 +272,17 @@ header {
   }
 }
 
+.text-uppercase{
+  h1{
+    margin: 0;
+  }
+}
+
+.ul-pct{
+  img{
+    transition: transform 0.2s ease-in-out;
+  }
+  img:hover{
+    transform: translateY(-5px);
+  }
+}

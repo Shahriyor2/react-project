@@ -1,9 +1,10 @@
 import React from "react";
-import Card from "./Components/Card/index";
 import axios from "axios";
+import { Route, Routes } from "react-router-dom";
 import Drawer from "./Components/Drawer";
 import Header from "./Components/Header";
-import Emptycart from "./Components/Emptycart";
+import Home from "./pages/Home";
+import Favorites from "./pages/Favorites";
 
 // const arr = [
 //   {
@@ -28,21 +29,7 @@ function App() {
 
   //массив наших кроссовок
   const [items, setItems] = React.useState([]);
-  const [Favorites, setFavorites] = React.useState([]);
-
-  // const fetchItems = async () => {
-  //   fetch(`https://6509820cf6553137159b94c2.mockapi.io/items`)
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((json) => {
-  //       setItems(json);
-  //     });
-  // };
-
-  // React.useEffect(() => {
-  //   fetchItems()
-  // },[])
+  const [favorites, setFavorites] = React.useState([]);
 
   const getCart = async () => {
     axios
@@ -72,8 +59,8 @@ function App() {
   };
 
   const onDeleteFromCart = (id) => {
-    const currentItem = cartItems.find((item) => item.id === id);
-    const { new_id } = currentItem;
+    const cartItem = cartItems.find((item) => item.id === id);
+    const { new_id } = cartItem;
     axios.delete(`https://6509820cf6553137159b94c2.mockapi.io/cart/${new_id}`);
     setCartItems(cartItems.filter((e) => e.id !== id));
   };
@@ -87,9 +74,25 @@ function App() {
     setSearchValue(event.target.value);
   };
 
-  const onAddToFavorite = (obj) => {
-    setFavorites((prev) => [...prev, obj]);
-  };
+  const onAddToFavorite = async (obj) => {
+  //   try {
+  //     if (favorites.find((favObj) => favObj.id === obj.id)) {
+  //       setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
+  //     } else {
+  //       const { data } = await axios.post("/favorites", obj);
+  //       setFavorites((prev) => [...prev, obj]);
+  //     }
+  //   } catch (error) {
+  //     alert("Не удалось добавить в фавориты");
+  //   }
+  // };
+
+  if(favorites.find((favObj) => favObj.id === obj.id)){
+    setFavorites((prev) => prev.filter((item) => item.id !== obj.id))
+  }else{
+    console.log(setFavorites((prev) => [...prev, obj]));
+  }
+  }
 
   return (
     <div className="wrapper clear">
@@ -107,50 +110,35 @@ function App() {
 
       {/* заголовок header */}
       <Header onClickCart={() => setCartOpened(true)} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              items={items}
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+              onChangeSearchInput={onChangeSearchInput}
+              onAddToFavorite={onAddToFavorite}
+              onAddToCart={onAddToCart}
+              isAdded={isAdded}
+              onDeleteFromCart={onDeleteFromCart}
+              cartItems={cartItems}
+            />
+          }
+        ></Route>
 
-      {/* сонтент кроссовок*/}
-      <div className="content p-40">
-        <div className="d-flex align-center justify-between mb-40">
-          <h1>
-            {searchValue ? `Поиск по запросу: ${searchValue}` : "Все кроссовки"}
-          </h1>
-          <div className="search-block">
-            <img src="/img/search.svg" alt="Search" />
-            {searchValue && (
-              <img
-                onClick={() => setSearchValue("")}
-                className="clear cu-p"
-                src="/img/remove.svg"
-                alt="Clear"
-              />
-            )}
-            <input
-              onChange={onChangeSearchInput}
-              value={searchValue}
-              placeholder="Поиск"
-            ></input>
-          </div>
-        </div>
-
-        {/* карты */}
-        <div className="d-flex card_block">
-          {items
-            .filter((item) =>
-              item.tittle.toLowerCase().includes(searchValue.toLowerCase())
-            )
-            .map((item) => (
-              <Card
-                isAdded={isAdded}
-                cartItems={cartItems}
-                key={item.id}
-                {...item}
-                onDeleteFromCart={onDeleteFromCart}
-                onFavorite={(obj) => onAddToFavorite(obj)}
-                onAddToCart={onAddToCart}
-              />
-            ))}
-        </div>
-      </div>
+        <Route
+          path="/favorites"
+          element={
+            <Favorites
+              isAdded={isAdded}
+              items={favorites}
+              onAddToFavorite={onAddToFavorite}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 }
