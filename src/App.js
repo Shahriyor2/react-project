@@ -30,6 +30,7 @@ function App() {
   //массив наших кроссовок
   const [items, setItems] = React.useState([]);
   const [favorites, setFavorites] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const getCart = async () => {
     axios
@@ -40,12 +41,20 @@ function App() {
   };
 
   React.useEffect(() => {
-    axios
-      .get(`https://6509820cf6553137159b94c2.mockapi.io/items`)
-      .then((res) => {
-        setItems(res.data);
-      });
-    getCart();
+    // axios
+    //   .get(`https://6509820cf6553137159b94c2.mockapi.io/items`)
+    //   .then((res) => {
+    //     setItems(res.data);
+    //   });
+    // getCart();
+    async function fetchData() {
+      await getCart();
+      const itemsResponse = await axios.get(`https://6509820cf6553137159b94c2.mockapi.io/items`)
+
+      setIsLoading(false)
+      setItems(itemsResponse.data);
+    }
+    fetchData()
   }, []);
 
   const onAddToCart = (obj) => {
@@ -56,7 +65,7 @@ function App() {
 
   const isAdded = (id) => {
     return cartItems.some((item) => item.id === id);
-  };
+  }; 
 
   const onDeleteFromCart = (id) => {
     const cartItem = cartItems.find((item) => item.id === id);
@@ -124,6 +133,7 @@ function App() {
               isAdded={isAdded}
               onDeleteFromCart={onDeleteFromCart}
               cartItems={cartItems}
+              isLoading={isLoading}
             />
           }
         ></Route>

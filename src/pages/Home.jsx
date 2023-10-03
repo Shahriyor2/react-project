@@ -10,7 +10,29 @@ function Home({
   isAdded,
   onDeleteFromCart,
   cartItems,
+  isLoading
 }) {
+  const renderItems = () => {
+    const filterItems = items
+    .filter((item) =>
+      item.tittle.toLowerCase().includes(searchValue.toLowerCase())
+    )
+
+    return (isLoading ? [...Array(10)] : filterItems)
+      .map((item, index) => (
+        <Card
+          isAdded={isAdded}
+          cartItems={cartItems}
+          key={index}
+          {...item}
+          onDeleteFromCart={onDeleteFromCart}
+          onFavorite={onAddToFavorite}
+          onAddToCart={onAddToCart}
+          loading={isLoading}
+        />
+      ));
+  };
+
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
@@ -36,23 +58,7 @@ function Home({
       </div>
 
       {/* карты */}
-      <div className="d-flex card_block">
-        {items
-          .filter((item) =>
-            item.tittle.toLowerCase().includes(searchValue.toLowerCase())
-          )
-          .map((item) => (
-            <Card
-              isAdded={isAdded}
-              cartItems={cartItems}
-              key={item.id}
-              {...item}
-              onDeleteFromCart={onDeleteFromCart}
-              onFavorite={onAddToFavorite}
-              onAddToCart={onAddToCart}
-            />
-          ))}
-      </div>
+      <div className="d-flex card_block">{renderItems()}</div>
     </div>
   );
 }
