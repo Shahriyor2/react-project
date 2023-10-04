@@ -10,27 +10,25 @@ function Home({
   isAdded,
   onDeleteFromCart,
   cartItems,
-  isLoading
+  isLoading,
 }) {
   const renderItems = () => {
-    const filterItems = items
-    .filter((item) =>
+    const filterItems = items.filter((item) =>
       item.tittle.toLowerCase().includes(searchValue.toLowerCase())
-    )
+    );
 
-    return (isLoading ? [...Array(10)] : filterItems)
-      .map((item, index) => (
-        <Card
-          isAdded={isAdded}
-          cartItems={cartItems}
-          key={index}
-          {...item}
-          onDeleteFromCart={onDeleteFromCart}
-          onFavorite={onAddToFavorite}
-          onAddToCart={onAddToCart}
-          loading={isLoading}
-        />
-      ));
+    return (isLoading ? [...Array(8)] : filterItems).map((item, index) => (
+      <Card
+        isAdded={isAdded}
+        cartItems={cartItems}
+        key={index}
+        {...item}
+        onDeleteFromCart={onDeleteFromCart}
+        onFavorite={onAddToFavorite}
+        onAddToCart={onAddToCart}
+        loading={isLoading}
+      />
+    ));
   };
 
   return (

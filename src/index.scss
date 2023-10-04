@@ -137,9 +137,14 @@ header {
   display: flex;
   flex-direction: column;
 
+  .overhidd{
+    overflow: hidden;
+  }
+
   .items {
     overflow: auto;
     margin-bottom: 60px;
+    flex: 1;
   }
 
   h2 {

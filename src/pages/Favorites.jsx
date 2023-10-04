@@ -1,5 +1,9 @@
+import React from 'react';
 import Card from '../Components/Card';
+import AppContext from '../Components/context'
+
 function Favorites({items, isAdded, onAddToFavorite}) {
+  const {favorites} = React.useContext(AppContext);
   return (
     <div className="content p-40">
       <div>
@@ -8,7 +12,7 @@ function Favorites({items, isAdded, onAddToFavorite}) {
 
 
       <div className="d-flex card_block">
-      {items
+      {favorites
           .map((item) => (
             <Card
             isAdded={isAdded}

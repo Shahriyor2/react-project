@@ -12,7 +12,7 @@ function Card({
   onDeleteFromCart,
   isAdded,
   favorited = false,
-  loading = false,
+  loading
 }) {
   // const [isAdded, setIsAdded] = React.useState(false);
   const [isFavorite, setIsFavorite] = React.useState(favorited);
@@ -50,9 +50,8 @@ function Card({
       ) : (
         <>
           {/* иконка лайка */}
-          <div onClick={onFavorite} className="favorite">
+          <div onClick={onClickFavorite} className="favorite">
             <img
-              onClick={onClickFavorite}
               className="cu-p"
               src={
                 isFavorite ? "/img/heart-liked.svg" : "/img/heart-Unliked.svg"

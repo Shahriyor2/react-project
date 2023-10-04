@@ -1,4 +1,16 @@
-function Drawer({ onClose, onDeleteFromCart, cartItems, onRemove }) {
+import React, { useContext, useState } from "react";
+import { Info } from "./Info";
+import AppContext from "./context";
+
+function Drawer({ onClose, onDeleteFromCart, cartItems }) {
+  const [isOrderComplete, setisOrderComplete] = useState(false);
+  const {setCartItems} = useContext(AppContext)
+
+  const onClickOrder = () => {
+    setisOrderComplete(true);
+    setCartItems([]);
+  }
+
   return (
     <div className="overlay">
       <div className="drawer">
@@ -13,8 +25,8 @@ function Drawer({ onClose, onDeleteFromCart, cartItems, onRemove }) {
         </h2>
 
         {cartItems.length > 0 ? (
-          <idv>
-            <div className="items flex">
+          <div className="d-flex flex-column flex overhidd">
+            <div className="items">
               {cartItems?.map((obj) => (
                 <div
                   key={obj.id}
@@ -54,23 +66,13 @@ function Drawer({ onClose, onDeleteFromCart, cartItems, onRemove }) {
                   <b>1074 руб. </b>
                 </li>
               </ul>
-              <button className="greenButton">
+              <button onClick={onClickOrder} className="greenButton">
                 Оформить заказ <img src="img/arrow.svg" alt="Arrow" />
               </button>
             </div>
-          </idv>
-        ) : (
-          <div className="cartEmpty d-flex flex-column align-center flex">
-            <img width={120} height={120} src="img/corobka.jpg" alt="corobka" />
-            <h2 className="mb-10">Корзина пустая</h2>
-            <p className="opacity-6">
-              Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.
-            </p>
-            <button onClick={onClose} className="greenButton">
-            <img src="img/Стрелка-назад.svg" alt="Arrow"/>
-              Вернуться назад
-            </button>
           </div>
+        ) : (
+          <Info title={isOrderComplete ? "Заказ оформлен" : "Корзина пустая"} description = {isOrderComplete ? "Ваш заказ #18 скоро будет передан курьерской доставке" : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."} image = {isOrderComplete ? "/img/complete-order.png" : "/img/corobka.jpg"} />
         )}
       </div>
     </div>
